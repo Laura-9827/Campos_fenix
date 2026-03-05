@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISCTE FENIX+</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; font-size: 13px; background: #f5f5f5; color: #333; }
+
+  .topbar {
+    background: #0D28C2; color: white;
+    display: flex; align-items: center;
+    padding: 0 15px; height: 45px;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  }
+  .topbar .logo { font-size: 18px; font-weight: bold; color: white; letter-spacing: 1px; }
+  .topbar .logo span { color: white; }
+  .topbar .menu-icon { margin-right: 12px; font-size: 18px; cursor: pointer; }
+
+  .quality-banner {
+    position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+    background: #cc6600; color: white; padding: 4px 20px; text-align: center;
+    font-size: 12px; z-index: 200; line-height: 1.5; white-space: nowrap;
+  }
+  .quality-banner strong { display: block; font-size: 12px; }
+
+  .sidebar {
+    position: fixed; left: 0; top: 45px; bottom: 0;
+    width: 185px; background: #0D28C2; color: white; overflow-y: auto;
+  }
+  .sidebar-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 15px; cursor: pointer; font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .sidebar-item:hover { background: rgba(255,255,255,0.1); }
+  .sidebar-item.active { background: rgba(255,255,255,0.15); }
+  .sidebar-sub { padding: 8px 15px 8px 38px; cursor: pointer; font-size: 12px; color: rgba(255,255,255,0.85); }
+  .sidebar-sub:hover { background: rgba(255,255,255,0.1); }
+  .sidebar-sub.active { color: white; font-weight: bold; }
+
+  .main {
+    margin-left: 185px; margin-top: 45px;
+    padding: 20px 30px; min-height: calc(100vh - 45px); background: white;
+  }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    color: #333; font-size: 13px; margin-bottom: 18px; cursor: pointer;
+    background: #f0f0f0; border: 1px solid #ccc;
+    padding: 5px 12px; border-radius: 3px; text-decoration: none;
+  }
+  h2 { font-size: 20px; font-weight: normal; margin-bottom: 20px; color: #333; }
+
+  .details-box {
+    border: 1px solid #ddd; border-radius: 4px;
+    padding: 15px 20px; margin-bottom: 20px; background: #fff;
+  }
+  .detail-row { display: flex; align-items: flex-start; padding: 6px 0; font-size: 13px; }
+  .detail-label { width: 80px; color: #555; flex-shrink: 0; }
+
+  .tabs {
+    display: flex; align-items: center;
+    border-bottom: 2px solid #ddd; overflow-x: auto; flex-wrap: nowrap;
+  }
+  .tab {
+    padding: 8px 14px; font-size: 12px; cursor: pointer;
+    white-space: nowrap; color: #555;
+    border: 1px solid transparent; border-bottom: none; margin-bottom: -2px;
+  }
+  .tab:hover { color: #003366; }
+  .tab.active {
+    background: white; border-color: #ddd; color: #003366;
+    font-weight: bold; border-bottom-color: white;
+  }
+  .tab-arrow { padding: 8px 6px; color: #555; cursor: pointer; font-size: 14px; flex-shrink: 0; }
+
+  .tab-content { border: 1px solid #ddd; border-top: none; padding: 15px 20px; background: white; }
+  .separator-note { font-size: 11px; color: #888; margin-bottom: 15px; font-style: italic; }
+
+  .form-row {
+    display: flex; align-items: flex-start;
+    padding: 10px 0; border-bottom: 1px solid #f0f0f0;
+  }
+  .form-row:last-child { border-bottom: none; }
+  .form-label { width: 130px; flex-shrink: 0; font-size: 13px; color: #555; padding-top: 4px; }
+  .form-value { flex: 1; font-size: 13px; }
+
+  .lang-selector {
+    display: flex; align-items: center;
+    border: 1px solid #ccc; border-radius: 3px;
+    padding: 3px 8px; font-size: 12px; color: #444;
+    background: white; gap: 5px; width: fit-content;
+    margin-left: 10px; height: 28px; flex-shrink: 0;
+  }
+  .lang-selector .check { color: #4CAF50; }
+  .field-with-lang { display: flex; align-items: flex-start; gap: 10px; width: 100%; }
+  .field-text { flex: 1; font-size: 13px; line-height: 1.5; }
+
+  /* New question fields */
+  .form-row.new-field {
+    background: #f9f9ff; border: 1px solid #c8d8f0;
+    border-radius: 4px; padding: 12px 15px; margin-top: 10px;
+  }
+  .radio-group { display: flex; gap: 20px; align-items: center; padding-top: 3px; }
+  .radio-label { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; }
+  .radio-label input[type="radio"] { width: 14px; height: 14px; cursor: pointer; accent-color: #003366; }
+
+  /* Info icon */
+  .info-wrap { display: flex; align-items: flex-start; gap: 6px; }
+  .info-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; margin-top: 1px;
+    background: #003366; color: white; font-size: 10px; font-weight: bold;
+    cursor: pointer; font-style: italic; font-family: Georgia, serif; user-select: none;
+  }
+
+  /* Info box */
+  .info-box {
+    display: none; margin-top: 10px;
+    background: #f0f4fa; border: 1px solid #b0c4de;
+    border-left: 4px solid #003366; border-radius: 4px;
+    padding: 12px 15px; font-size: 12px; color: #333;
+    line-height: 1.6; max-width: 700px;
+  }
+  .info-box p { margin-bottom: 10px; }
+  .info-box p:last-child { margin-bottom: 0; }
+  .info-box.visible { display: block; }
+
+  /* Warning / alert boxes */
+  .alert-box {
+    display: none; margin-top: 14px;
+    border-radius: 4px; padding: 13px 16px;
+    font-size: 13px; color: #333; line-height: 1.6; max-width: 700px;
+  }
+  .alert-box.yellow {
+    background: #fff8e1; border: 1px solid #f5c518; border-left: 4px solid #e6a800;
+  }
+  .alert-box.orange {
+    background: #fff3e0; border: 1px solid #ffb74d; border-left: 4px solid #e65c00;
+  }
+  .alert-inner { display: flex; align-items: flex-start; gap: 10px; }
+  .alert-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .yellow .alert-icon { color: #e6a800; }
+  .orange .alert-icon { color: #e65c00; }
+  .alert-box a { color: #003366; }
+
+  .ethics-note {
+    margin-top: 12px; padding-top: 10px;
+    border-top: 1px solid #f0d070; font-size: 12px; color: #555;
+  }
+
+  /* Download button */
+  .download-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    margin-top: 10px; cursor: pointer;
+    background: #fff; border: 1px solid #bbb; border-radius: 3px;
+    padding: 6px 12px; font-size: 12px; color: #003366;
+    text-decoration: none;
+  }
+  .download-btn:hover { background: #f5f5f5; }
+
+  /* Sub-sections inside reminders */
+  .sub-section { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e0c070; }
+  .sub-section.orange-top { border-top-color: #ffb74d; }
+
+  .urgency-note {
+    margin-top: 8px; padding: 10px 14px;
+    background: #fff8e1; border: 1px solid #f5c518;
+    border-left: 4px solid #e6a800; border-radius: 4px;
+    font-size: 12px; color: #333; line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="menu-icon">&#9776;</span>
+  <span class="logo">iscte <span>FENIX+</span></span>
+  <span style="margin-left:10px; font-size:16px;">&#8962;</span>
+</div>
+
+<div class="quality-banner">
+  <strong>Ambiente de Qualidade: As alterações realizadas serão perdidas na próxima actualização</strong>
+  Dados de: 2026-02-19 19:30
+</div>
+
+<div class="sidebar">
+  <div class="sidebar-item"><span>&#x229A; Área Académica</span><span>&#x203A;</span></div>
+  <div class="sidebar-item active"><span>&#128100; Aluno</span><span>&#8744;</span></div>
+  <div class="sidebar-sub">Disciplinas Frequentadas</div>
+  <div class="sidebar-sub">Currículo</div>
+  <div class="sidebar-sub">Avaliações / Exames</div>
+  <div class="sidebar-sub">Processos de Inscrição</div>
+  <div class="sidebar-sub active">Trabalhos Académicos</div>
+  <div class="sidebar-sub">Estatutos</div>
+  <div class="sidebar-item"><span>&#x229A; qubIT.solutions</span><span>&#x203A;</span></div>
+  <div class="sidebar-item"><span>&#x229A; ISCTE.solutions</span><span>&#x203A;</span></div>
+  <div class="sidebar-item"><span>&#x229A; Candidato</span><span>&#x203A;</span></div>
+  <div class="sidebar-item"><span>&#x229A; myFenix</span><span>&#x203A;</span></div>
+</div>
+
+<div class="main">
+  <a class="back-btn">&#8592; Voltar</a>
+
+  <!-- ─── LEMBRETE A — respondeu SIM: já submeteu o parecer? ─── -->
+  <div class="alert-box orange" id="reminder-sim">
+    <div class="alert-inner">
+      <span class="alert-icon">&#9888;</span>
+      <div style="width:100%">
+        <strong>Atenção</strong> — no momento de registo de tema da sua dissertação, indicou que o seu estudo envolvia a recolha de dados com participantes. Já submeteu o pedido de parecer à Comissão de Ética da sua Escola?
+        <div class="radio-group" style="margin-top:10px;">
+          <label class="radio-label">
+            <input type="radio" name="parecer_submetido" id="parecer-sim" value="sim"> Sim
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="parecer_submetido" id="parecer-nao" value="nao"> Não
+          </label>
+        </div>
+
+        <!-- Parecer submetido: SIM → anexar prova -->
+        <div class="sub-section orange-top" id="sub-parecer-sim">
+          <p style="margin-bottom:8px; font-size:13px;">Por favor, insira a prova do e-mail enviado à Comissão de Ética:</p>
+          <label class="download-btn">
+            &#128206; <span id="proof-filename">Anexar comprovativo do e-mail enviado (imagem ou PDF)</span>
+            <input type="file" id="file-proof" accept=".pdf,.png,.jpg,.jpeg" multiple style="display:none">
+          </label>
+          <span id="proof-link"></span>
+        </div>
+
+        <!-- Parecer submetido: NÃO → lembrete de urgência -->
+        <div class="sub-section orange-top" id="sub-parecer-nao">
+          <div class="urgency-note">
+            &#9888;&nbsp; A submissão do pedido de parecer à Comissão de Ética é uma etapa fundamental do processo de investigação. A aprovação ética protege os/as participantes, os/as investigadores/as e a integridade da produção científica — e é frequentemente condição necessária para obtenção de financiamento e publicação em revistas científicas. Recomendamos vivamente que proceda à submissão o mais brevemente possível.
+          </div>
+          <br>
+          <strong>Atenção</strong> — é necessário submeter um pedido de parecer. Para o efeito, deve preencher o seguinte formulário e enviá-lo à Comissão de Ética da sua Escola (<a href="mailto:xxxxxx&#64;iscte-iul.pt" style="color:#003366;">xxxxxx&#64;iscte-iul.pt</a>):
+          <br>
+          <a href="1678121908008_Formulario_de_Submiss_o.pdf" download class="download-btn">
+            &#128206; <span id="etica-filename-c">Download de formulário de submissão para aprovação da Comissão de Ética</span>
+          </a>
+          <div class="ethics-note" style="border-top-color:#ffb74d; margin-top:10px; padding-top:10px;">
+            Para mais informação, consulte o <a href="https://www.iscte-iul.pt/assets/files/2022/01/24/1643044824553_Co_digo_de_Conduta_E_tica_na_Investigac_a_o_ISCTE.pdf" target="_blank" style="color:#003366;">Código de Conduta Ética na Investigação do Iscte</a>.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── LEMBRETE B — respondeu NÃO: mantém a resposta? ─── -->
+  <div class="alert-box orange" id="reminder-nao">
+    <div class="alert-inner">
+      <span class="alert-icon">&#9888;</span>
+      <div style="width:100%">
+        <strong>Atenção</strong> — no momento de registo de tema da sua dissertação, indicou que o seu estudo não envolvia a recolha de dados com participantes. Mantém a sua resposta?
+        <div class="radio-group" style="margin-top:10px;">
+          <label class="radio-label">
+            <input type="radio" name="mantem_resposta" id="mantem-sim" value="sim"> Sim
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="mantem_resposta" id="mantem-nao" value="nao"> Não
+          </label>
+        </div>
+
+        <!-- Não mantém → mostrar aviso de submissão de parecer -->
+        <div class="sub-section orange-top" id="sub-mantem-nao">
+          <div class="urgency-note">
+            &#9888;&nbsp; Uma vez que o seu estudo passou a envolver recolha de dados com participantes, é necessário submeter um pedido de parecer à Comissão de Ética da sua Escola. Para o efeito, preencha o formulário abaixo e envie-o para <a href="/cdn-cgi/l/email-protection#cbb3b3b3b3b3b3ede8fdfff0a2b8a8bfaee6a2bea7e5bbbf">xxxxxx&#64;iscte-iul.pt</a>:
+          </div>
+          <a href="1678121908008_Formulario_de_Submiss_o.pdf" download class="download-btn" style="margin-top:10px;">
+            &#128206; <span id="etica-filename-b">Download de formulário de submissão para aprovação da Comissão de Ética</span>
+          </a>
+          <div class="ethics-note" style="border-top-color:#ffb74d; margin-top:10px; padding-top:10px;">
+            Para mais informação, consulte o <a href="https://www.iscte-iul.pt/assets/files/2022/01/24/1643044824553_Co_digo_de_Conduta_E_tica_na_Investigac_a_o_ISCTE.pdf" target="_blank">Código de Conduta Ética na Investigação do Iscte</a>.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 40px;"></div>
+
+  <h2>Detalhes</h2>
+
+  <div class="details-box">
+    <div class="detail-row">
+      <div class="detail-label">Tipo</div>
+      <div>Registo Tema (Mestrado) Migrado</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Alunos</div>
+      <div>78465 - Laura Maria Thomaz Honório da Fonseca ; [B31] Mestrado em Ciência Política</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Estado</div>
+      <div>Concluído (07-12-2021 10:12)</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active">Registo tema</div>
+    <div class="tab">Orientadores</div>
+    <div class="tab">Júri</div>
+    <div class="tab">Data de conclusão</div>
+    <div class="tab">Objetivos desenvolvimento sustentável</div>
+    <div class="tab">Declaração Repositório ISCTE-IUL</div>
+    <div class="tab">Declaração de honra e requerimento</div>
+    <div class="tab">Documentos da entrega</div>
+    <div class="tab">Ato público defesa</div>
+    <div class="tab">Sessões de acompanhamento</div>
+    <div class="tab">Outros documentos entrega</div>
+    <div class="tab-arrow">&#x203A;</div>
+  </div>
+
+  <div class="tab-content">
+    <div class="separator-note">Separador disponível desde "Pendente de aceitação pelo orientador" por imthf&#64;iscte-iul.pt em 27-11-2020 14:59</div>
+
+    <div class="form-row">
+      <div class="form-label">Activo?</div>
+      <div class="form-value">Não</div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-label">Título</div>
+      <div class="form-value">
+        <div class="field-with-lang">
+          <div class="field-text">Media, Avaliação de Líderes e Voto em Portugal<br>O Caso das Eleições Legislativas de 2019</div>
+          <div class="lang-selector"><span class="check">&#10003;</span> pt_PT <span>&#8744;</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-label">Tema</div>
+      <div class="form-value">
+        <div class="field-with-lang">
+          <div class="field-text">Análise do impacto da personalização da política, em eleitores/as e nos meios de comunicação social, no comportamento eleitoral da população portuguesa, no período compreendido entre 2015-2019.</div>
+          <div class="lang-selector"><span class="check">&#10003;</span> pt_PT <span>&#8744;</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-label">Palavras-Chave</div>
+      <div class="form-value">
+        <div class="field-with-lang">
+          <div class="field-text">Personalização da Política; Meios de Comunicação Social; Comportamento Eleitoral</div>
+          <div class="lang-selector"><span class="check">&#10003;</span> pt_PT <span>&#8744;</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-label">Resumo</div>
+      <div class="form-value">
+        <div class="field-with-lang">
+          <div class="field-text">A investigação científica tem lançado luz sobre a relação entre a avaliação de líderes pelos/as eleitores/as e a sua escolha de voto, mas de todos os fatores que contribuem para esta relação, a avaliação do papel da comunicação social permanece um campo de estudo que ainda necessita de aprofundamento. Em Portugal, a comunicação social sobre mais os/as líderes do que os partidos e as suas propostas? A exposição à cobertura de líderes nos media tem efeito nas escolhas de voto dos/as eleitores/as? A televisão e os jornais contribuem para um enviesamento positivo da avaliação de líderes partidários/as? Na escassez de estudos sobre estas questões no contexto político considerado, a escolha da presente investigação recaiu sobre as eleições legislativas de 2019, partindo de uma análise de conteúdo a quatro meios de comunicação social, bem como da análise de dados recolhidos por um estudo pré-eleitoral do ICS e ISCTE, num quadro temporal que antecipava mudanças na representação parlamentar e, nomeadamente em termos de composição partidária. Conclui-se que a exposição aos jornais possui um papel relevante, tanto na definição das avaliações de líderes, como na explicação da importância das mesmas na intenção de voto para alguns dos partidos considerados; que as características de amabilidade possuem um papel significativo e positivo no comportamento eleitoral, superior às características de competência, apenas para o caso do voto no PSD; e que eleitores/as alinhados/as e desalinhados/as são, igualmente, influenciados/as pelas avaliações de líderes, quando decidem em que partido votar.</div>
+          <div class="lang-selector"><span class="check">&#10003;</span> pt_PT <span>&#8744;</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CAMPO 1: O seu estudo envolve recolha de dados com participantes?
+         ═══════════════════════════════════════════════════════ -->
+    <div class="form-row new-field">
+      <div class="form-label">
+        <div class="info-wrap">
+          <span>O seu estudo envolve recolha de dados com participantes?</span>
+          <span class="info-icon" id="btn-info-etica" title="Mais informação">i</span>
+        </div>
+      </div>
+      <div class="form-value">
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="recolha_dados" id="etica-sim" value="sim"> Sim
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="recolha_dados" id="etica-nao" value="nao"> Não
+          </label>
+        </div>
+
+        <!-- Nota informativa (i) -->
+        <div class="info-box" id="info-etica">
+          <p>A aprovação ética é encarada como parte fundamental do processo de investigação, e não apenas como um requisito para fazer investigação de qualidade. A aprovação ética promove a proteção dos/as participantes, dos/as investigadores/as, e a integridade da produção científica. Adicionalmente, é muitas vezes condição necessária para a obtenção de financiamento, e muitas publicações científicas não aceitam publicar resultados de estudos que não obtiveram aprovação ética.</p>
+          <p><strong>Os estudos que envolvam recolha de dados com participantes são elegíveis para aprovação ética no Iscte.</strong> Os estudos que não envolvam participantes, que recorram apenas a dados já disponíveis em bases de dados públicas, ou que tenham obtido aprovação ética por outra entidade, dispensam aprovação ética pelo Iscte.</p>
+        </div>
+
+        <!-- Aviso se SIM: elegível para aprovação ética -->
+        <div class="alert-box yellow" id="warning-etica">
+          <div class="alert-inner">
+            <span class="alert-icon">&#9888;</span>
+            <div>
+              <strong>Atenção</strong> — o seu estudo é elegível para aprovação ética, pelo que é necessário submeter um pedido de parecer.
+              <br><br>
+              Para o efeito, deve preencher o seguinte formulário e enviá-lo à Comissão de Ética da sua Escola (<a href="/cdn-cgi/l/email-protection#2a5252525252520c091c1e114359495e4f07435f46045a5e">xxxxxx&#64;iscte-iul.pt</a>):
+              <br>
+              <a href="1678121908008_Formulario_de_Submiss_o.pdf" download class="download-btn">
+                &#128206; <span id="etica-filename">Download de formulário de submissão para aprovação da Comissão de Ética</span>
+              </a>
+              <div class="ethics-note">
+                Para mais informação, consulte o <a href="https://www.iscte-iul.pt/assets/files/2022/01/24/1643044824553_Co_digo_de_Conduta_E_tica_na_Investigac_a_o_ISCTE.pdf" target="_blank">Código de Conduta Ética na Investigação do Iscte</a>.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── LEMBRETE A — respondeu SIM: já submeteu o parecer? ─── -->
+        <!-- [Lembrete movido para o topo da página] -->
+
+        <!-- ─── LEMBRETE B — respondeu NÃO: mantém a resposta? ─── -->
+        <!-- [Lembrete movido para o topo da página] -->
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CAMPO 2: O seu estudo envolve tratamento de dados pessoais?
+         ═══════════════════════════════════════════════════════ -->
+    <div class="form-row new-field">
+      <div class="form-label">
+        <div class="info-wrap">
+          <span>O seu estudo envolve tratamento de dados pessoais?</span>
+          <span class="info-icon" id="btn-info-dados" title="Mais informação">i</span>
+        </div>
+      </div>
+      <div class="form-value">
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="dados_pessoais" id="dados-sim" value="sim"> Sim
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="dados_pessoais" id="dados-nao" value="nao"> Não
+          </label>
+        </div>
+
+        <!-- Nota informativa (i) -->
+        <div class="info-box" id="info-dados">
+          <p>Por dados pessoais entende-se qualquer informação, de qualquer natureza e em qualquer suporte (e.g. registo de voz ou imagem), relativa a uma pessoa singular identificada ou identificável. É considerada identificável uma pessoa singular que possa ser identificada direta ou indiretamente, por exemplo, através de um nome, um número de identificação, dados de localização, identificadores eletrónicos (e.g. IP) ou de outros elementos específicos da identidade física, fisiológica, genética, mental, económica, cultural ou social dessa pessoa singular.</p>
+          <p>Se pretende que o seu estudo não envolva o tratamento de dados pessoais, isto é, recolha e trate exclusivamente dados anónimos, o momento do processo de anonimização é fundamental. O facto de um estudo não reportar respostas individuais de participantes, não é por si só indicador de não haver tratamento de dados pessoais. Pode considerar-se que um estudo nunca trata dados pessoais apenas na condição de que o investigador não tenha acesso a nenhum suporte com registos de dados pessoais durante a recolha e posteriores tratamentos. Se a anonimização dos dados ocorrer numa fase posterior à recolha de dados, por exemplo, quando o investigador remove informações de identificação pessoal de uma transcrição áudio de uma entrevista, ou quando transfere os dados pessoais recolhidos para outra base de dados, os dados brutos ainda são pessoais e deve indicar "sim" nesta questão, anexando ainda o questionário sobre tratamento de dados pessoais.</p>
+        </div>
+
+        <!-- Aviso se SIM -->
+        <div class="alert-box yellow" id="warning-dados">
+          <div class="alert-inner">
+            <span class="alert-icon">&#9888;</span>
+            <div>
+              <strong>Atenção</strong> — se indicou que o estudo envolve o tratamento de dados pessoais, preencha o questionário sobre tratamento de dados pessoais.
+              <br><br>
+              <a href="1617730212705_Question_rio_sobre_tratamento_de_dados_pessoais.pdf" download class="download-btn">
+                &#128206; <span id="dados-filename">Download de questionário sobre tratamento de dados pessoais</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  function show(id) { document.getElementById(id).style.display = 'block'; }
+  function hide(id) { document.getElementById(id).style.display = 'none'; }
+  function toggle(id) { document.getElementById(id).classList.toggle('visible'); }
+
+  function resetReminders() {
+    hide('reminder-sim'); hide('reminder-nao');
+    hide('sub-parecer-sim'); hide('sub-parecer-nao');
+    hide('sub-mantem-nao');
+    var radios = document.querySelectorAll('input[name="parecer_submetido"], input[name="mantem_resposta"]');
+    radios.forEach(function(r) { r.checked = false; });
+  }
+
+  // ── Campo 1: recolha de dados ──
+  document.getElementById('etica-sim').addEventListener('change', function() {
+    show('warning-etica');
+    show('reminder-sim');
+    hide('reminder-nao');
+    resetReminders();
+    show('reminder-sim');
+  });
+
+  document.getElementById('etica-nao').addEventListener('change', function() {
+    hide('warning-etica');
+    show('reminder-nao');
+    hide('reminder-sim');
+    resetReminders();
+    show('reminder-nao');
+  });
+
+  // ── Lembrete A (respondeu SIM): já submeteu o parecer? ──
+  document.getElementById('parecer-sim').addEventListener('change', function() {
+    show('sub-parecer-sim');
+    hide('sub-parecer-nao');
+  });
+  document.getElementById('parecer-nao').addEventListener('change', function() {
+    hide('sub-parecer-sim');
+    show('sub-parecer-nao');
+  });
+
+  // ── Lembrete B (respondeu NÃO): mantém a resposta? ──
+  document.getElementById('mantem-sim').addEventListener('change', function() {
+    hide('sub-mantem-nao');
+  });
+  document.getElementById('mantem-nao').addEventListener('change', function() {
+    show('sub-mantem-nao');
+  });
+
+  // ── Info toggles ──
+  document.getElementById('btn-info-etica').addEventListener('click', function() { toggle('info-etica'); });
+  document.getElementById('btn-info-dados').addEventListener('click', function() { toggle('info-dados'); });
+
+  // ── Campo 2: dados pessoais ──
+  document.getElementById('dados-sim').addEventListener('change', function() { show('warning-dados'); });
+  document.getElementById('dados-nao').addEventListener('change', function() { hide('warning-dados'); });
+
+  // ── File uploads ──
+  function setupUpload(inputId, filenameId, linkId) {
+    document.getElementById(inputId).addEventListener('change', function() {
+      var names = [];
+      var links = [];
+      if (this.files) {
+        for (var i = 0; i < this.files.length; i++) {
+          var file = this.files[i];
+          var url = URL.createObjectURL(file);
+          names.push(file.name);
+          links.push('<a href="' + url + '" target="_blank" style="font-size:12px;color:#003366;text-decoration:underline;">Ver ' + file.name + ' &#x2197;</a>');
+        }
+      }
+      document.getElementById(filenameId).textContent = names.join(', ');
+      document.getElementById(linkId).innerHTML = links.join(' ');
+    });
+  }
+
+  setupUpload('file-proof', 'proof-filename', 'proof-link');
+
+});
+
+</script>
+
+</body>
+
+</html> 
