@@ -130,105 +130,6 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
 <div class="main">
   <a class="back-btn">&#8592; Voltar</a>
 
-  <!-- ═══ LEMBRETE TOPO A: para quem respondeu SIM ═══ -->
-  <div class="top-reminder" id="top-reminder-sim">
-    <div class="alert-inner">
-      <span class="alert-icon" style="color:#e65c00;">&#9888;</span>
-      <div style="width:100%">
-        <strong>Aten&#231;&#227;o</strong> &#8212; no momento de registo de tema da sua disserta&#231;&#227;o, indicou que o seu estudo envolvia a recolha de dados com participantes. J&#225; submeteu o pedido de parecer &#224; Comiss&#227;o de &#201;tica da sua Escola?
-        <div class="radio-group" style="margin-top:10px; flex-direction:column; align-items:flex-start;">
-          <label class="radio-label"><input type="radio" name="top_parecer" id="top-parecer-sim" value="sim"> Sim</label>
-          <label class="radio-label"><input type="radio" name="top_parecer" id="top-parecer-nao" value="nao"> N&#227;o, ainda n&#227;o submeti o pedido de parecer</label>
-          <label class="radio-label"><input type="radio" name="top_parecer" id="top-parecer-nao-estudo" value="nao-estudo"> N&#227;o, o meu estudo n&#227;o envolve recolha de dados com participantes</label>
-        </div>
-        <!-- Sim: j&#225; submeteu -->
-        <div class="sub-section" id="top-sub-sim">
-          <p style="margin-bottom:8px;">Por favor, insira a prova do e-mail enviado &#224; Comiss&#227;o de &#201;tica:</p>
-          <label class="upload-btn">
-            &#128206; <span id="top-fn-proof">Anexar comprovativo do e-mail enviado (imagem ou PDF)</span>
-            <input type="file" id="top-file-proof" accept=".pdf,.png,.jpg,.jpeg" style="display:none">
-          </label>
-          <span id="top-lnk-proof"></span>
-          <div class="form-field">
-            <label>Data do pedido de parecer:</label>
-            <input type="date" id="top-data-pedido">
-          </div>
-          <div class="form-field">
-            <label>Comiss&#227;o de &#201;tica da Escola para onde foi enviado o pedido:</label>
-            <select id="top-comissao">
-              <option value="">-- Selecione a sua Escola --</option>
-              <option value="ECSH">Escola de Ci&#234;ncias Sociais e Humanas (ECSH)</option>
-              <option value="Sintra">Escola de Tecnologias Digitais Aplicadas (Escola de Sintra)</option>
-              <option value="ISTA">Escola de Tecnologias e Arquitetura (ISTA)</option>
-              <option value="IBS">Escola de Gest&#227;o (IBS)</option>
-              <option value="ESPP">Escola de Sociologia e Pol&#237;ticas P&#250;blicas (ESPP)</option>
-            </select>
-          </div>
-          <div style="margin-top:14px;padding-top:12px;border-top:1px solid #ffb74d;">
-            <p style="font-size:13px;margin-bottom:8px;">Caso j&#225; tenha obtido o parecer da Comiss&#227;o de &#201;tica, pode faz&#234;-lo aqui (opcional):</p>
-            <label class="upload-btn">
-              &#128206; <span id="top-fn-parecer">Anexar parecer da Comiss&#227;o de &#201;tica (PDF)</span>
-              <input type="file" id="top-file-parecer" accept=".pdf" style="display:none">
-            </label>
-            <span id="top-lnk-parecer"></span>
-            <div class="form-field">
-              <label>Data em que o parecer foi obtido (se aplic&#225;vel):</label>
-              <input type="date" id="top-data-parecer">
-            </div>
-          </div>
-        </div>
-        <!-- N&#227;o: ainda n&#227;o submeteu -->
-        <div class="sub-section" id="top-sub-nao">
-          <strong>Aten&#231;&#227;o</strong> &#8212; &#233; necess&#225;rio submeter um pedido de parecer e obter o parecer da Comiss&#227;o de &#201;tica da sua Escola, <strong>antes de iniciar o processo de recolha de dados.</strong>
-          <br><br>
-          Para o efeito, deve preencher o formul&#225;rio de submiss&#227;o dispon&#237;vel na &#225;rea da Comiss&#227;o de &#201;tica da sua Escola:
-          <div class="escola-selector">
-            <label>Selecione a sua Escola</label>
-            <select onchange="abrirLink(this)">
-              <option value="">-- Selecione a sua Escola --</option>
-              <option value="https://www.iscte-iul.pt/iscte/escolas/escola-ciencias-sociais-humanas/comissoes-de-etica">Escola de Ci&#234;ncias Sociais e Humanas (ECSH)</option>
-              <option value="">Escola de Tecnologias Digitais Aplicadas (Escola de Sintra)</option>
-              <option value="https://www.iscte-iul.pt/conteudos/iscte/escolas/tecnologias-arquitetura/comissao-de-etica/2614/apresentacao">Escola de Tecnologias e Arquitetura (ISTA)</option>
-              <option value="https://ibs.iscte-iul.pt/conteudos/escola/organizacao/1523/comissoes">Escola de Gest&#227;o (IBS)</option>
-              <option value="https://www.iscte-iul.pt/iscte/escolas/escola-sociologia-politicas-publicas/comissao-de-etica-6360">Escola de Sociologia e Pol&#237;ticas P&#250;blicas (ESPP)</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ LEMBRETE TOPO B: para quem respondeu N&#195;O ═══ -->
-  <div class="top-reminder" id="top-reminder-nao">
-    <div class="alert-inner">
-      <span class="alert-icon" style="color:#e65c00;">&#9888;</span>
-      <div style="width:100%">
-        <strong>Aten&#231;&#227;o</strong> &#8212; no momento de registo de tema da sua disserta&#231;&#227;o, indicou que o seu estudo n&#227;o envolvia a recolha de dados com participantes. Mant&#233;m a sua resposta?
-        <div class="radio-group" style="margin-top:10px;">
-          <label class="radio-label"><input type="radio" name="top_mantem" id="top-mantem-sim" value="sim"> Sim</label>
-          <label class="radio-label"><input type="radio" name="top_mantem" id="top-mantem-nao" value="nao"> N&#227;o</label>
-        </div>
-        <!-- N&#227;o mant&#233;m: estudo passou a envolver participantes -->
-        <div class="sub-section" id="top-sub-mantem-nao">
-          <strong>Aten&#231;&#227;o</strong> &#8212; uma vez que o seu estudo passou a envolver recolha de dados com participantes, &#233; necess&#225;rio submeter um pedido de parecer e obter o parecer da Comiss&#227;o de &#201;tica da sua Escola, <strong>antes de iniciar o processo de recolha de dados.</strong>
-          <br><br>
-          Para o efeito, deve preencher o formul&#225;rio de submiss&#227;o dispon&#237;vel na &#225;rea da Comiss&#227;o de &#201;tica da sua Escola:
-          <div class="escola-selector">
-            <label>Selecione a sua Escola</label>
-            <select onchange="abrirLink(this)">
-              <option value="">-- Selecione a sua Escola --</option>
-              <option value="https://www.iscte-iul.pt/iscte/escolas/escola-ciencias-sociais-humanas/comissoes-de-etica">Escola de Ci&#234;ncias Sociais e Humanas (ECSH)</option>
-              <option value="">Escola de Tecnologias Digitais Aplicadas (Escola de Sintra)</option>
-              <option value="https://www.iscte-iul.pt/conteudos/iscte/escolas/tecnologias-arquitetura/comissao-de-etica/2614/apresentacao">Escola de Tecnologias e Arquitetura (ISTA)</option>
-              <option value="https://ibs.iscte-iul.pt/conteudos/escola/organizacao/1523/comissoes">Escola de Gest&#227;o (IBS)</option>
-              <option value="https://www.iscte-iul.pt/iscte/escolas/escola-sociologia-politicas-publicas/comissao-de-etica-6360">Escola de Sociologia e Pol&#237;ticas P&#250;blicas (ESPP)</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <h2>Detalhes</h2>
 
   <div class="details-box">
@@ -496,48 +397,12 @@ document.addEventListener('DOMContentLoaded', function() {
     addClass('etica-docs-pedido', 'visible');
     addClass('etica-docs-parecer', 'visible');
     addClass('change-status-box', 'visible');
-    // show top reminder too
-    show('top-reminder-sim');
-    hide('top-reminder-nao');
-    hide('top-sub-sim'); hide('top-sub-nao');
-    var ps = document.getElementById('top-parecer-sim');
-    var pn = document.getElementById('top-parecer-nao');
-    if (ps) ps.checked = false;
-    if (pn) pn.checked = false;
   });
   document.getElementById('etica-nao').addEventListener('change', function() {
     hide('warning-etica');
     removeClass('etica-docs-pedido', 'visible');
     removeClass('etica-docs-parecer', 'visible');
     removeClass('change-status-box', 'visible');
-    show('top-reminder-nao');
-    hide('top-reminder-sim');
-    var ms = document.getElementById('top-mantem-sim');
-    var mn = document.getElementById('top-mantem-nao');
-    if (ms) ms.checked = false;
-    if (mn) mn.checked = false;
-    hide('top-sub-mantem-nao');
-  });
-
-  // ── Lembrete topo A: j&#225; submeteu? ──
-  document.getElementById('top-parecer-sim').addEventListener('change', function() {
-    show('top-sub-sim'); hide('top-sub-nao');
-  });
-  document.getElementById('top-parecer-nao').addEventListener('change', function() {
-    hide('top-sub-sim'); show('top-sub-nao');
-    // show attention banner in ethics tab
-    addClass('etica-attention-banner', 'visible');
-  });
-  document.getElementById('top-parecer-nao-estudo').addEventListener('change', function() {
-    hide('top-sub-sim'); hide('top-sub-nao');
-  });
-
-  // ── Lembrete topo B: mant&#233;m resposta? ──
-  document.getElementById('top-mantem-sim').addEventListener('change', function() {
-    hide('top-sub-mantem-nao');
-  });
-  document.getElementById('top-mantem-nao').addEventListener('change', function() {
-    show('top-sub-mantem-nao');
   });
 
   // ── Info toggles ──
@@ -547,10 +412,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // ── Campo 2: dados pessoais ──
   document.getElementById('dados-sim').addEventListener('change', function() { show('warning-dados'); });
   document.getElementById('dados-nao').addEventListener('change', function() { hide('warning-dados'); });
-
-  // ── Uploads: top reminder ──
-  setupUpload('top-file-proof',   'top-fn-proof',   'top-lnk-proof');
-  setupUpload('top-file-parecer', 'top-fn-parecer', 'top-lnk-parecer');
 
   // ── Uploads: ethics tab fields ──
   setupUpload('file-pedido-pdf',  'fn-pedido-pdf',  'lnk-pedido-pdf');
