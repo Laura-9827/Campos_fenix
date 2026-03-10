@@ -338,60 +338,29 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
             <p><strong>Os estudos que envolvam recolha de dados com participantes s&#227;o eleg&#237;veis para aprova&#231;&#227;o &#233;tica no Iscte.</strong> Os estudos que n&#227;o envolvam participantes, que recorram apenas a dados j&#225; dispon&#237;veis em bases de dados p&#250;blicas, ou que tenham obtido aprova&#231;&#227;o &#233;tica por outra entidade, dispensam aprova&#231;&#227;o &#233;tica pelo Iscte.</p>
           </div>
 
-          <!-- Campos condicionais: aparecem se respondeu SIM -->
-          <div class="ethics-sub-fields" id="etica-sim-fields">
-
-            <div class="ethics-sub-group">
-              <div class="ethics-sub-section-title">1. Documentos do Pedido de Parecer</div>
-              <div class="form-field">
-                <label>PDF do pedido de parecer:</label>
-                <label class="upload-btn">
-                  &#128206; <span id="fn-pedido-pdf">Anexar PDF do pedido de parecer</span>
-                  <input type="file" id="file-pedido-pdf" accept=".pdf" style="display:none">
-                </label>
-                <span id="lnk-pedido-pdf"></span>
+          <!-- Alerta original: aparece quando responde Sim -->
+          <div class="alert-box yellow" id="warning-etica">
+            <div class="alert-inner">
+              <span class="alert-icon">&#9888;</span>
+              <div>
+                <strong>Aten&#231;&#227;o</strong> &#8212; o seu estudo &#233; eleg&#237;vel para aprova&#231;&#227;o &#233;tica, pelo que &#233; necess&#225;rio submeter um pedido de parecer e obter o parecer da Comiss&#227;o de &#201;tica da sua Escola, <strong>antes de iniciar o processo de recolha de dados.</strong>
+                <br><br>
+                Para o efeito, deve preencher o formul&#225;rio de submiss&#227;o dispon&#237;vel na &#225;rea da Comiss&#227;o de &#201;tica da sua Escola:
+                <div class="escola-selector">
+                  <label>Selecione a sua Escola</label>
+                  <select onchange="abrirLink(this)">
+                    <option value="">-- Selecione a sua Escola --</option>
+                    <option value="https://www.iscte-iul.pt/iscte/escolas/escola-ciencias-sociais-humanas/comissoes-de-etica">Escola de Ci&#234;ncias Sociais e Humanas (ECSH)</option>
+                    <option value="">Escola de Tecnologias Digitais Aplicadas (Escola de Sintra)</option>
+                    <option value="https://www.iscte-iul.pt/conteudos/iscte/escolas/tecnologias-arquitetura/comissao-de-etica/2614/apresentacao">Escola de Tecnologias e Arquitetura (ISTA)</option>
+                    <option value="https://ibs.iscte-iul.pt/conteudos/escola/organizacao/1523/comissoes">Escola de Gest&#227;o (IBS)</option>
+                    <option value="https://www.iscte-iul.pt/iscte/escolas/escola-sociologia-politicas-publicas/comissao-de-etica-6360">Escola de Sociologia e Pol&#237;ticas P&#250;blicas (ESPP)</option>
+                  </select>
+                </div>
+                <div class="ethics-note-orange">
+                  <strong>Lembrete: Ap&#243;s ter submetido o pedido de parecer &#224; Comiss&#227;o de &#201;tica da sua Escola, dever&#225; inseri-lo em F&#233;nix+.</strong>
+                </div>
               </div>
-              <div class="form-field" style="margin-top:10px;">
-                <label>Data do pedido:</label>
-                <input type="date" id="data-pedido-parecer">
-              </div>
-              <div class="form-field" style="margin-top:10px;">
-                <label>Comiss&#227;o de &#201;tica a quem endere&#231;ou o pedido:</label>
-                <select id="comissao-pedido">
-                  <option value="">-- Selecione a sua Escola --</option>
-                  <option value="ECSH">Escola de Ci&#234;ncias Sociais e Humanas (ECSH)</option>
-                  <option value="Sintra">Escola de Tecnologias Digitais Aplicadas (Escola de Sintra)</option>
-                  <option value="ISTA">Escola de Tecnologias e Arquitetura (ISTA)</option>
-                  <option value="IBS">Escola de Gest&#227;o (IBS)</option>
-                  <option value="ESPP">Escola de Sociologia e Pol&#237;ticas P&#250;blicas (ESPP)</option>
-                </select>
-              </div>
-              <p style="margin-top:12px;font-size:12px;color:#555;"><strong>Lembrete: Ap&#243;s ter submetido o pedido de parecer &#224; Comiss&#227;o de &#201;tica da sua Escola, dever&#225; inseri-lo em F&#233;nix+.</strong></p>
-            </div>
-
-            <div class="ethics-sub-group" style="border-top:1px solid #d0d8f0;padding-top:14px;">
-              <div class="ethics-sub-section-title">2. Documentos da Emiss&#227;o do Parecer</div>
-              <div class="form-field">
-                <label>PDF do parecer:</label>
-                <label class="upload-btn">
-                  &#128206; <span id="fn-parecer-pdf">Anexar PDF do parecer</span>
-                  <input type="file" id="file-parecer-pdf" accept=".pdf" style="display:none">
-                </label>
-                <span id="lnk-parecer-pdf"></span>
-              </div>
-              <div class="form-field" style="margin-top:10px;">
-                <label>Data da emiss&#227;o do parecer:</label>
-                <input type="date" id="data-emissao-parecer">
-              </div>
-            </div>
-
-          </div><!-- /etica-sim-fields -->
-
-          <!-- Caixa: caso o estudo já não envolva participantes -->
-          <div class="change-status-box" id="change-status-box">
-            <div class="change-status-inner">
-              <input type="checkbox" class="change-status-checkbox" id="change-status-check">
-              <label for="change-status-check" style="cursor:pointer;">Caso o seu estudo j&#225; n&#227;o envolva recolha de dados com participantes, clique aqui</label>
             </div>
           </div>
 
@@ -423,6 +392,61 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- ── Secções independentes (surgem quando Q1 = Sim) ── -->
+
+      <!-- SECÇÃO 1: Documentos do Pedido de Parecer -->
+      <div class="ethics-sub-fields" id="etica-docs-pedido" style="margin-top:20px;">
+        <div class="ethics-sub-section-title">1. Documentos do Pedido de Parecer</div>
+        <div class="form-field">
+          <label>PDF do pedido de parecer:</label>
+          <label class="upload-btn">
+            &#128206; <span id="fn-pedido-pdf">Anexar PDF do pedido de parecer</span>
+            <input type="file" id="file-pedido-pdf" accept=".pdf" style="display:none">
+          </label>
+          <span id="lnk-pedido-pdf"></span>
+        </div>
+        <div class="form-field" style="margin-top:10px;">
+          <label>Data do pedido:</label>
+          <input type="date" id="data-pedido-parecer">
+        </div>
+        <div class="form-field" style="margin-top:10px;">
+          <label>Comiss&#227;o de &#201;tica a quem endere&#231;ou o pedido:</label>
+          <select id="comissao-pedido">
+            <option value="">-- Selecione a sua Escola --</option>
+            <option value="ECSH">Escola de Ci&#234;ncias Sociais e Humanas (ECSH)</option>
+            <option value="Sintra">Escola de Tecnologias Digitais Aplicadas (Escola de Sintra)</option>
+            <option value="ISTA">Escola de Tecnologias e Arquitetura (ISTA)</option>
+            <option value="IBS">Escola de Gest&#227;o (IBS)</option>
+            <option value="ESPP">Escola de Sociologia e Pol&#237;ticas P&#250;blicas (ESPP)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- SECÇÃO 2: Documentos da Emissão do Parecer -->
+      <div class="ethics-sub-fields" id="etica-docs-parecer" style="margin-top:12px;">
+        <div class="ethics-sub-section-title">2. Documentos da Emiss&#227;o do Parecer</div>
+        <div class="form-field">
+          <label>PDF do parecer:</label>
+          <label class="upload-btn">
+            &#128206; <span id="fn-parecer-pdf">Anexar PDF do parecer</span>
+            <input type="file" id="file-parecer-pdf" accept=".pdf" style="display:none">
+          </label>
+          <span id="lnk-parecer-pdf"></span>
+        </div>
+        <div class="form-field" style="margin-top:10px;">
+          <label>Data da emiss&#227;o do parecer:</label>
+          <input type="date" id="data-emissao-parecer">
+        </div>
+      </div>
+
+      <!-- Caixa: caso o estudo já não envolva participantes -->
+      <div class="change-status-box" id="change-status-box" style="margin-top:12px;">
+        <div class="change-status-inner">
+          <input type="checkbox" class="change-status-checkbox" id="change-status-check">
+          <label for="change-status-check" style="cursor:pointer;">Caso o seu estudo j&#225; n&#227;o envolva recolha de dados com participantes, clique aqui</label>
         </div>
       </div>
 
@@ -468,7 +492,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ── Campo 1: recolha de dados com participantes ──
   document.getElementById('etica-sim').addEventListener('change', function() {
-    addClass('etica-sim-fields', 'visible');
+    show('warning-etica');
+    addClass('etica-docs-pedido', 'visible');
+    addClass('etica-docs-parecer', 'visible');
     addClass('change-status-box', 'visible');
     // show top reminder too
     show('top-reminder-sim');
@@ -480,7 +506,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (pn) pn.checked = false;
   });
   document.getElementById('etica-nao').addEventListener('change', function() {
-    removeClass('etica-sim-fields', 'visible');
+    hide('warning-etica');
+    removeClass('etica-docs-pedido', 'visible');
+    removeClass('etica-docs-parecer', 'visible');
     removeClass('change-status-box', 'visible');
     show('top-reminder-nao');
     hide('top-reminder-sim');
