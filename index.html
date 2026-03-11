@@ -99,6 +99,16 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
 .change-status-box:hover { background:#ebebeb; }
 .change-status-inner { display:flex; align-items:center; gap:10px; }
 .change-status-checkbox { width:16px; height:16px; cursor:pointer; accent-color:#003366; flex-shrink:0; }
+/* ── Resultado Situação 3 (Q1=Não + Q2=Não) ── */
+.outcome-closed-box { display:none; margin-top:14px; background:#f1f8e9; border:1px solid #aed581; border-left:4px solid #558b2f; border-radius:4px; padding:13px 16px; font-size:13px; color:#333; line-height:1.6; max-width:700px; }
+.outcome-closed-box .oc-title { font-weight:bold; color:#33691e; margin-bottom:6px; }
+.outcome-closed-box .oc-reminder { display:none; margin-top:10px; border-top:1px solid #c5e1a5; padding-top:10px; font-size:12px; color:#444; }
+.degree-badge { display:inline-block; border-radius:10px; padding:1px 9px; font-size:11px; font-weight:bold; margin-left:5px; vertical-align:middle; }
+.degree-badge.m { background:#5c6bc0; color:white; }
+.degree-badge.d { background:#7b1fa2; color:white; }
+/* ── Timing note inside alerts ── */
+.timing-note { margin-top:10px; padding-top:10px; border-top:1px solid #ffe082; font-size:12px; color:#555; }
+.timing-note.orange { border-top-color:#ffcc99; }
 </style>
 </head>
 <body>
@@ -216,6 +226,9 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
           <span class="alert-icon" style="color:#e65c00;">&#9888;</span>
           <div>
             Aten&#231;&#227;o &#8212; no momento de registo de tema indicou que o seu estudo envolvia a recolha de dados com participantes. <strong>Contudo, ainda n&#227;o anexou aqui o pedido de parecer que submeteu &#224; Comiss&#227;o de &#201;tica da sua Escola. Queira, por favor, inserir a informa&#231;&#227;o em falta na sec&#231;&#227;o em baixo.</strong>
+            <div class="timing-note orange">
+              &#8987; Este lembrete &#233; enviado automaticamente pelo sistema porque decorreu mais de <strong>1 m&#234;s</strong> desde a sua resposta inicial e o pedido de parecer ainda n&#227;o foi anexado. O lembrete repetir-se-&#225; de <strong>30 em 30 dias</strong> at&#233; que a informa&#231;&#227;o seja inserida (Situa&#231;&#227;o 2 do diagrama de processos).
+            </div>
           </div>
         </div>
       </div>
@@ -260,6 +273,9 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
                 </div>
                 <div class="ethics-note-orange">
                   <strong>Lembrete: Ap&#243;s ter submetido o pedido de parecer &#224; Comiss&#227;o de &#201;tica da sua Escola, dever&#225; inseri-lo em F&#233;nix+.</strong>
+                </div>
+                <div class="timing-note orange">
+                  &#8987; <strong>Prazos importantes:</strong> deve submeter o pedido de parecer e anex&#225;-lo aqui <strong>no prazo de 1 m&#234;s</strong> ap&#243;s esta indica&#231;&#227;o. Se ultrapassar esse prazo, o sistema enviar&#225; lembretes autom&#225;ticos repetidos de 30 em 30 dias. Ap&#243;s anexar o pedido, o sistema aguardar&#225; <strong>6 meses</strong> antes de o relembrar de anexar o parecer final da Comiss&#227;o de &#201;tica.
                 </div>
               </div>
             </div>
@@ -351,6 +367,22 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
         </div>
       </div>
 
+      <!-- Resultado Q1=Não + Q2=Não (Situação 3) -->
+      <div class="outcome-closed-box" id="outcome-nao-nao">
+        <div class="oc-title">&#10003; Nenhuma a&#231;&#227;o necess&#225;ria</div>
+        O seu estudo n&#227;o &#233; eleg&#237;vel para aprova&#231;&#227;o &#233;tica no Iscte. Nenhum documento ou pedido de parecer &#233; requerido.
+        <!-- Mestrado -->
+        <div class="oc-reminder" id="oc-reminder-mestrado">
+          &#8987; <strong>Lembrete de confirma&#231;&#227;o &#8212; <span class="degree-badge m">Mestrado</span></strong><br>
+          O sistema enviar&#225; automaticamente um &#250;nico lembrete de confirma&#231;&#227;o <strong>2 meses ap&#243;s esta resposta</strong>, perguntando se a situa&#231;&#227;o se mant&#233;m. Ap&#243;s esse lembrete, o processo fica encerrado sem mais avisos.
+        </div>
+        <!-- Doutoramento -->
+        <div class="oc-reminder" id="oc-reminder-dout">
+          &#8987; <strong>Lembretes de confirma&#231;&#227;o &#8212; <span class="degree-badge d">Doutoramento</span></strong><br>
+          O sistema enviar&#225; lembretes de confirma&#231;&#227;o <strong>de 6 em 6 meses, durante os primeiros 2 anos</strong> (m&#225;ximo de 4 lembretes), perguntando se a situa&#231;&#227;o se mant&#233;m sem recolha de dados com participantes. Ap&#243;s esse per&#237;odo, o processo fica encerrado sem mais avisos.
+        </div>
+      </div>
+
     </div><!-- /panel-aprovacao-etica -->
 
   </div><!-- /tab-content -->
@@ -364,6 +396,47 @@ document.addEventListener('DOMContentLoaded', function() {
   function tog(id)  { var el = document.getElementById(id); if (el) el.classList.toggle('visible'); }
   function addClass(id, cls) { var el = document.getElementById(id); if (el) el.classList.add(cls); }
   function removeClass(id, cls) { var el = document.getElementById(id); if (el) el.classList.remove(cls); }
+
+  // ── Degree detection (Mestrado vs. Doutoramento) ──
+  var detailsText = (document.querySelector('.details-box') || {}).textContent || '';
+  var isDoutoramento = /doutoramento/i.test(detailsText);
+
+  function showOutcomeNaoNao() {
+    show('outcome-nao-nao');
+    if (isDoutoramento) {
+      show('oc-reminder-dout');
+      hide('oc-reminder-mestrado');
+    } else {
+      show('oc-reminder-mestrado');
+      hide('oc-reminder-dout');
+    }
+  }
+
+  function hideOutcomeNaoNao() {
+    hide('outcome-nao-nao');
+    hide('oc-reminder-mestrado');
+    hide('oc-reminder-dout');
+  }
+
+  function getQ1() {
+    if (document.getElementById('etica-sim').checked) return 'sim';
+    if (document.getElementById('etica-nao').checked) return 'nao';
+    return null;
+  }
+  function getQ2() {
+    if (document.getElementById('dados-sim').checked) return 'sim';
+    if (document.getElementById('dados-nao').checked) return 'nao';
+    return null;
+  }
+
+  function updateOutcome() {
+    var q1 = getQ1(), q2 = getQ2();
+    if (q1 === 'nao' && q2 === 'nao') {
+      showOutcomeNaoNao();
+    } else {
+      hideOutcomeNaoNao();
+    }
+  }
 
   function setupUpload(fileId, nameId, linkId) {
     var el = document.getElementById(fileId);
@@ -380,10 +453,8 @@ document.addEventListener('DOMContentLoaded', function() {
   var tabs = document.querySelectorAll('.tab[data-tab]');
   tabs.forEach(function(tab) {
     tab.addEventListener('click', function() {
-      // deactivate all tabs
       tabs.forEach(function(t) { t.classList.remove('active'); });
       this.classList.add('active');
-      // hide all panels
       document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
       var panelId = 'panel-' + this.getAttribute('data-tab');
       var panel = document.getElementById(panelId);
@@ -397,12 +468,14 @@ document.addEventListener('DOMContentLoaded', function() {
     addClass('etica-docs-pedido', 'visible');
     addClass('etica-docs-parecer', 'visible');
     addClass('change-status-box', 'visible');
+    updateOutcome();
   });
   document.getElementById('etica-nao').addEventListener('change', function() {
     hide('warning-etica');
     removeClass('etica-docs-pedido', 'visible');
     removeClass('etica-docs-parecer', 'visible');
     removeClass('change-status-box', 'visible');
+    updateOutcome();
   });
 
   // ── Info toggles ──
@@ -410,8 +483,14 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('btn-info-dados').addEventListener('click', function() { tog('info-dados'); });
 
   // ── Campo 2: dados pessoais ──
-  document.getElementById('dados-sim').addEventListener('change', function() { show('warning-dados'); });
-  document.getElementById('dados-nao').addEventListener('change', function() { hide('warning-dados'); });
+  document.getElementById('dados-sim').addEventListener('change', function() {
+    show('warning-dados');
+    updateOutcome();
+  });
+  document.getElementById('dados-nao').addEventListener('change', function() {
+    hide('warning-dados');
+    updateOutcome();
+  });
 
   // ── Uploads: ethics tab fields ──
   setupUpload('file-pedido-pdf',  'fn-pedido-pdf',  'lnk-pedido-pdf');
