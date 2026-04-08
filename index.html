@@ -143,6 +143,7 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
   <div class="tabs">
     <div class="tab active" data-tab="registo-tema">Registo tema</div>
     <div class="tab" data-tab="aprovacao-etica">Aprova&#231;&#227;o &#201;tica</div>
+    <div class="tab" data-tab="documentos-aprovacao-etica">Documentos Aprova&#231;&#227;o &#201;tica</div>
     <div class="tab" data-tab="orientadores">Orientadores</div>
     <div class="tab" data-tab="juri">J&#250;ri</div>
     <div class="tab">Data de conclus&#227;o</div>
@@ -298,10 +299,24 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
         </div>
       </div>
 
-      <!-- ── Secções independentes (surgem quando Q1 = Sim) ── -->
+      <!-- Caixa: caso o estudo já não envolva participantes -->
+      <div class="change-status-box" id="change-status-box" style="margin-top:12px;">
+        <div class="change-status-inner">
+          <input type="checkbox" class="change-status-checkbox" id="change-status-check">
+          <label for="change-status-check" style="cursor:pointer;">Caso o seu estudo j&#225; n&#227;o envolva recolha de dados com participantes, clique aqui</label>
+        </div>
+      </div>
 
-      <!-- SECÇÃO 1: Documentos do Pedido de Parecer -->
-      <div class="ethics-sub-fields" id="etica-docs-pedido" style="margin-top:20px;">
+    </div><!-- /panel-aprovacao-etica -->
+
+    <!-- ══════════════════════════════════════════════
+         PAINEL: Documentos Aprovação Ética
+    ══════════════════════════════════════════════ -->
+    <div class="tab-panel" id="panel-documentos-aprovacao-etica">
+
+      <div class="separator-note">Documentos associados ao pedido e à emissão do parecer</div>
+
+      <div class="ethics-sub-fields" id="etica-docs-pedido" style="margin-top:0;">
         <div class="ethics-sub-section-title">1. Documentos do Pedido de Parecer</div>
         <div class="form-field">
           <label>PDF do pedido de parecer:</label>
@@ -328,7 +343,6 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
         </div>
       </div>
 
-      <!-- SECÇÃO 2: Documentos da Emissão do Parecer -->
       <div class="ethics-sub-fields" id="etica-docs-parecer" style="margin-top:12px;">
         <div class="ethics-sub-section-title">2. Documentos da Emiss&#227;o do Parecer</div>
         <div class="form-field">
@@ -345,15 +359,7 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
         </div>
       </div>
 
-      <!-- Caixa: caso o estudo já não envolva participantes -->
-      <div class="change-status-box" id="change-status-box" style="margin-top:12px;">
-        <div class="change-status-inner">
-          <input type="checkbox" class="change-status-checkbox" id="change-status-check">
-          <label for="change-status-check" style="cursor:pointer;">Caso o seu estudo j&#225; n&#227;o envolva recolha de dados com participantes, clique aqui</label>
-        </div>
-      </div>
-
-    </div><!-- /panel-aprovacao-etica -->
+    </div><!-- /panel-documentos-aprovacao-etica -->
 
   </div><!-- /tab-content -->
 </div><!-- /main -->
