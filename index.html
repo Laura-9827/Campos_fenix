@@ -303,7 +303,6 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
 
       <div class="ethics-actions">
         <button type="button" class="ethics-action-btn primary"><span class="icon">&#10003;</span>Guardar</button>
-        <button type="button" class="ethics-action-btn secondary">Cancelar</button>
       </div>
 
     </div><!-- /panel-aprovacao-etica -->
@@ -316,7 +315,7 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
       <div class="separator-note">Documentos associados ao pedido e à emissão do parecer</div>
 
       <div class="ethics-sub-fields" id="etica-docs-pedido" style="margin-top:0;">
-        <div class="ethics-sub-section-title">1. Documentos do Pedido de Parecer (a anexar pelo estudante)</div>
+        <div class="ethics-sub-section-title">1. Pedido de Parecer (a anexar pelo estudante)</div>
         <div class="form-field">
           <label>PDF do pedido de parecer:</label>
           <label class="upload-btn">
@@ -328,6 +327,9 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
         <div class="form-field" style="margin-top:10px;">
           <label>Observações:</label>
           <textarea id="obs-pedido-parecer" rows="4" style="width:100%;max-width:700px;padding:8px;border:1px solid #ccc;border-radius:3px;font-size:13px;"></textarea>
+        </div>
+        <div class="form-field" style="margin-top:10px;">
+          <button type="button" class="ethics-action-btn primary" id="btn-enviar-pedido-parecer">Enviar pedido de parecer</button>
         </div>
       </div>
 
@@ -345,11 +347,6 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
           <label>Data da emiss&#227;o do parecer:</label>
           <input type="date" id="data-emissao-parecer">
         </div>
-      </div>
-
-      <div class="ethics-actions">
-        <button type="button" class="ethics-action-btn primary"><span class="icon">&#10003;</span>Guardar</button>
-        <button type="button" class="ethics-action-btn secondary">Cancelar</button>
       </div>
 
     </div><!-- /panel-documentos-aprovacao-etica -->
