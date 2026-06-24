@@ -252,7 +252,7 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
                   <select onchange="abrirLink(this)">
                     <option value="">-- Selecione a sua Escola --</option>
                     <option value="https://www.iscte-iul.pt/iscte/escolas/escola-ciencias-sociais-humanas/comissoes-de-etica">Escola de Ci&#234;ncias Sociais e Humanas (ECSH)</option>
-                    <option value="">Escola de Tecnologias Digitais Aplicadas (Escola de Sintra)</option>
+                    <option value="https://www.iscte-iul.pt/iscte/escolas/escola-tecnologias-digitais-aplicadas/comissao-de-etica">Escola de Tecnologias Digitais Aplicadas (Escola de Sintra)</option>
                     <option value="https://www.iscte-iul.pt/conteudos/iscte/escolas/tecnologias-arquitetura/comissao-de-etica/2614/apresentacao">Escola de Tecnologias e Arquitetura (ISTA)</option>
                     <option value="https://ibs.iscte-iul.pt/conteudos/escola/organizacao/1523/comissoes">Escola de Gest&#227;o (IBS)</option>
                     <option value="https://www.iscte-iul.pt/iscte/escolas/escola-sociologia-politicas-publicas/comissao-de-etica-6360">Escola de Sociologia e Pol&#237;ticas P&#250;blicas (ESPP)</option>
@@ -315,7 +315,8 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
       <div class="separator-note">Documentos associados ao pedido e à emissão do parecer</div>
 
       <div class="ethics-sub-fields" id="etica-docs-pedido" style="margin-top:0;">
-        <div class="ethics-sub-section-title">1. Pedido de Parecer (a anexar pelo estudante)</div>
+        <div class="ethics-sub-section-title">1. Pedido de Parecer</div>
+        <p style="font-size:12px;color:#555;margin-bottom:12px;">Uma vez que o seu estudo envolve recolha de dados com participantes, deve submeter nesta secção o pedido de parecer a enviar à Comissão de Ética da sua Escola.</p>
         <div class="form-field">
           <label>PDF do pedido de parecer:</label>
           <label class="upload-btn">
@@ -334,7 +335,8 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
       </div>
 
       <div class="ethics-sub-fields" id="etica-docs-parecer" style="margin-top:12px;">
-        <div class="ethics-sub-section-title">2. Documentos da Emiss&#227;o do Parecer (a anexar pelo Secretariado da Escola)</div>
+        <div class="ethics-sub-section-title">2. Documentos da Emiss&#227;o do Parecer</div>
+        <p style="font-size:12px;color:#555;margin-bottom:12px;">Assim que o parecer tenha sido emitido, deverá anexá-lo aqui.</p>
         <div class="form-field">
           <label>PDF do parecer:</label>
           <label class="upload-btn">
@@ -346,6 +348,9 @@ h2 { font-size:20px; font-weight:normal; margin-bottom:20px; color:#333; }
         <div class="form-field" style="margin-top:10px;">
           <label>Data da emiss&#227;o do parecer:</label>
           <input type="date" id="data-emissao-parecer">
+        </div>
+        <div class="form-field" style="margin-top:10px;">
+          <button type="button" class="ethics-action-btn primary" id="btn-submeter-parecer">Submeter parecer</button>
         </div>
       </div>
 
